@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Pribadi Zulfikar</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00FAB6, #00B894);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .typing-animation {
+            overflow: hidden;
+            border-right: .15em solid #fff;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            transition: 0.3s;
+            padding: 20px;
+        }
+
+        .sidebar.closed {
+            left: -250px;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 999;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 60px;
+        }
+
+      .nav button {
+    background: none;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, #00FFFF, #0088ff);
+    transition: width 0.3s ease;
+}
+
+.nav button:hover::after {
+    width: 100%;
+}
+
+.nav button:hover {
+    background: rgba(255,255,255,0.1);
+    color: #00FFFF;
+    transform: translateX(10px);
+}
+        .main-content {
+            margin-left: 250px;
+            flex: 1;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .main-content.full {
+            margin-left: 0;
+        }
+
+        .content {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .home-content {
+            display: flex;
+            padding: 50px 20px;
+            gap: 40px;
+        }
+
+           .profile-section {
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;  /* Menambahkan jarak antara foto dan social links */
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 0; /* Menghapus margin atas agar lebih dekat dengan foto */
+        }
+
+        .typing-animation {
+            color: #80FFFF; /* Warna biru muda cerah untuk teks "Hai, Saya Zulfikar" */
+        }
+
+
+        .info-section {
+            flex: 1;
+            padding-top: 20px;
+        }
+
+        .home-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 25px #00ffff;
+        }
+
+        .home-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Updated Experience Section Styles */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+   .experience-box {
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 0 25px rgba(0, 255, 255, 0.5),
+        0 0 45px rgba(0, 255, 255, 0.3),
+        inset 0 0 15px rgba(0, 255, 255, 0.2);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.experience-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: shineEffect 3s infinite linear;
+}
+
+@keyframes shineEffect {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+.experience-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 0 35px rgba(0, 255, 255, 0.7),
+        0 0 55px rgba(0, 255, 255, 0.4),
+        inset 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.experience-box h3 {
+    color: #00ffff;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    position: relative;
+}
+
+
+
+        .experience-box h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ffff;
+            transition: width 0.3s ease;
+        }
+
+        .experience-box:hover h3::after {
+            width: 100%;
+        }
+
+       .experience-box p {
+    color: #fff;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+        .experience-box:hover p {
+            transform: translateX(5px);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .experience-box {
+    will-change: transform;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+}
+
+      .contact-form button {
+    background: linear-gradient(45deg, #00FAB6, #00B894);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.contact-form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: buttonShine 3s infinite linear;
+    z-index: -1;
+}
+
+@keyframes buttonShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.contact-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 250, 182, 0.3);
+}
+
+/* Responsive Navigation Animations */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.closed {
+        transform: translateX(-100%);
+    }
+
+    .sidebar:not(.closed) {
+        transform: translateX(0);
+    }
+
+    .nav button {
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideIn 0.3s forwards;
+    }
+
+    .nav button:nth-child(1) { animation-delay: 0.1s; }
+    .nav button:nth-child(2) { animation-delay: 0.2s; }
+    .nav button:nth-child(3) { animation-delay: 0.3s; }
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+        .contact-form button:hover {
+            background: #00B894;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #00FAB6;
+        }
+
+        .copyright {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .welcome-text {
+            background: linear-gradient(45deg, #00FFFF, #0000FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: shine 3s linear infinite;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00FFFF, #0000FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                z-index: 100;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 60px 20px 20px;
+            }
+
+            .home-content {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-section {
+                text-align: center;
+            }
+
+            .experience-grid {
+                grid-template-columns: 1fr;
+            }
+
+          .experience-box p {
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+            color: #80FFFF; /* Light blue color for the text */
+        }
+
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <button class="toggle-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <nav class="nav">
+            <button onclick="showSection('home')" class="active">
+                <i class="fas fa-home"></i> Beranda
+            </button>
+            <button onclick="showSection('experience')">
+                <i class="fas fa-briefcase"></i> Pengalaman
+            </button>
+            <button onclick="showSection('contact')">
+                <i class="fas fa-envelope"></i> Kontak
+            </button>
+        </nav>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <!-- Home Section -->
+        <section id="home" class="content section-content">
+            <h2 class="gradient-text" style="text-align: center; margin-bottom: 30px;">ようこそ</h2>
+            <div class="home-content">
+                <div class="profile-section">
+                    <div class="home-image">
+                        <img src="watashi.jpg" alt="Profil">
+                    </div>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/@IzulStory" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/kyoichiro_san?igsh=MW43bm4yMzc3aTVobw==" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/62895384547109" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="info-section">
+                    <h1 class="typing-animation" style="font-size: 2.5rem; margin-bottom: 15px;">
+                      私はズルフィカルです
+                    </h1>
+                    <p style="font-size: 1.2rem; margin-top: 20px;">日本で働きたいですから、毎日日本語を勉強して、日本語の言葉を暗記します.</p>
+                    <div class="skills-list" style="margin-top: 30px;">
+                        <span class="skill-tag">Trader</span>
+                        <span class="skill-tag">Web Developer</span>
+                        <span class="skill-tag">Jual Beli Online</span>
+                        <span class="skill-tag">Bahasa Jepang N5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="content section-content" style="display: none;">
+            <h2 class="experience-header typing-animation gradient-text" style="text-align: center; margin-bottom: 30px;">私の素晴らしい体験でした</h2>
+            <div class="experience-grid">
+                <div class="experience-box">
+                    <h3>Pendidikan</h3>
+                    <p>SDN JakaSetia 2</p>
+                    <p>MTs Hidayatullah</p>
+                    <p>SMK Binakarya Mandiri 2</p>
+                </div>
+                <div class="experience-box">
+                    <h3>Trader saham</h3>
+                    <p>Trading di pasar modal</p>
+                    <p>2024 - Sekarang</p>
+                </div>
+                <div class="experience-box">
+                    <h3>Trading crypto curenncy</h3>
+                    <p>Trading Crypto Spot And Future</p>
+                    <p>2024 - Sekarang</p>
+                </div>
+                <div class="experience-box">
+                    <h3>Web Development</h3>
+                    <p>Frontend Development</p>
+                    <p>2024 - Sekarang</p>
+                </div>
+                <div class="experience-box">
+                    <h3>Jual beli akun game online</h3>
+                    <p>Jual Beli Akun Game Online di Media sosial</p>
+                    <p>2021-2024</p>
+                </div>
+                <div class="experience-box">
+                    <h3>Membuat web phising</h3>
+                    <p>Membuat Web phising untuk game</p>
+                    <p>2022-2023</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="content section-content" style="display: none;">
+            <h2 class="gradient-text" style="text-align: center; margin-bottom: 30px;">Hubungi Saya</h2>
+            <div class="contact-form">
+                <form>
+                    <input type="text" placeholder="Nama" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea rows="5" placeholder="Pesan" required></textarea>
+                    <button type="submit">Kirim Pesan</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <div class="copyright">
+        &copy; 2024 Zulfikar Aziz Saripudin
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            sidebar.classList.toggle('closed');
+            mainContent.classList.toggle('full');
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            document.getElementById(sectionName).style.display = 'block';
+
+            // Update active button
+            const buttons = document.querySelectorAll('.nav button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        }
+
+        // Show home section by default
+        document.getElementById('home').style.display = 'block';
+    </script>
+</body>
+</html>
